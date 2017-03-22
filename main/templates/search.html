@@ -1,55 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>search</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% extends "base.html" %}
 
+{% load static %}
 
-</head>
-<body>
+{% block result %}
+    {% for i in products %}
+        <p style="color: white;">{{ i.product_name }}</p>
+    {% endfor %}
 
-
-<nav class="navbar navbar-default">
-    <div class="container">
-        <ul class="nav navbar-nav">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Product</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" class="glyphicon glyphicon-shopping-cart"></a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" href="#" data-toggle="dropdown">Welcome, Maily <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#"></a></li>
-                    <li><a href="basket.html">View Basket</a></li>
-                    <li><a href="#">Setting</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Log out</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
-<div class="row">
-    <div class="col-lg-3 pull-right">
-        <div class="input-group">
-            <input id="q" type="text" class="form-control" placeholder="search for...">
-            <span class="input-group-btn">
-            <button type="button" class="btn btn-default" aria-label="Search">
-                <span class=" glyphicon glyphicon-search" aria-hidden="true"></span>
-            </button>
-            </span>
-        </div>
-    </div>
-</div>
-<div id="result">
-
-</div>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block product %}
+    <hr>
+    <div class="container">
+        <div class="row">
+            {% for i in products %}
+                <div class="col-xs-18 col-sm-4 col-md-3">
+                    <div class="thumbnail">
+                        <img src="{% static "images/products/mens1.jpg" %}" alt="mens1"/>
+                        <div class="caption">
+                            <h5>{{ i.product_name }}</h5>
+                            <p>Price: £{{ i.price }}</p>
+
+                            <a href="#" class="btn btn-info btn-xs" role="button">Add to basket</a>
+                            <a href="#" class="btn btn-default btn-xs" role="button">Button</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
