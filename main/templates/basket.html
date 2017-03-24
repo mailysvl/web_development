@@ -1,46 +1,162 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block basket %}
 
     <style>
-        table {
-            background-color: grey;
-            margin-top: 5%;
+
+        .shopping-cart {
+            margin-top: 50px;
+        }
+
+        p {
+            color: lightgray;
+            font-size: 16px;
+
+        }
+
+        .item p, .quantity, .delete-btn {
+            margin-top: 50px;
+        }
+
+        h3 {
+            text-align: right;
+            color: lightgray;
+        }
+
+        #update-btn {
+            margin-top: 20px;
+            text-align: right;
         }
     </style>
-    <div class="container" align="center">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Necklace</td>
-                <td>1</td>
-                <td>£5</td>
-            </tr>
-            <tr>
-                <td>Necklace</td>
-                <td>1</td>
-                <td>£5</td>
-            </tr>
-            <tr>
-                <td>Necklace</td>
-                <td>1</td>
-                <td>£5</td>
-            </tr>
-            <tr>
-                <td>Necklace</td>
-                <td>1</td>
-                <td>£5</td>
-            </tr>
-            </tbody>
 
-        </table>
+    <div class="container">
+        <div class="shopping-cart">
+            <div class="title" style="color: white">
+                <h2>Shopping Bag</h2>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-5">
+                    <p><strong>Item</strong></p>
+                </div>
+                <div class="col-md-2">
+                    <p><strong>Unit Price</strong></p>
+                </div>
+                <div class="col-md-2">
+                    <p><strong>Quantity</strong></p>
+                </div>
+                <div class="col-md-2">
+                    <p><strong>Total Price</strong></p>
+                </div>
+                <div class="col-md-1">
+                    <p><strong>Remove</strong></p>
+                </div>
+            </div>
+            <form id="update-form">
+                <hr>
+                {% for i in item %}
+                    <div class="row">
+                        <div class="item">
+
+
+                            <div class="col-md-2">
+                                <img src="{% get_static_prefix %}images/products/{{ i.product.product_name }}.jpg"
+                                     class="img-thumbnail"/>
+                            </div>
+
+                            <div class="description col-lg-3">
+                                <p style="color: white"> {{ i.product.product_name }}</p>
+                            </div>
+
+                            <div class="single-price col-md-2" id="single-price"><p>£ {{ i.product.price }}</p></div>
+
+                            <div class="quantity col-md-2">
+                                <button class="button btn btn-xs" id="plus-btn" type="button" name="button">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                                <input type="text" name="quantity" id="qtt" style="width: 30px; text-align: center"
+                                       value="{{ i.quantity }}">
+                                <input type="hidden" name="product_id" value="{{ i.product.id }}">
+                                <button class="button btn btn-xs" id="minus-btn" type="button" name="button">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+                            </div>
+
+                            <div class="total-price col-md-2" id="total-price"><p>£ {{ i.product.price }}</p></div>
+                            <form method="post" action="{% url 'remove' %}">
+                                <div class="delete-btn btn btn-xs col-md-1">
+                                    <button class="glyphicon glyphicon-remove"></button>
+                                    <input type="hidden" name="product_remove" value="{{ i.product.id }}">
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <h3 style="text-align: right; color: lightgray">Total: </h3>
+                    </div>
+                    <div class="col-md-2">
+                        <h3 style="text-align: right; color: lightgray">£ {{ total }}</h3>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btn-sm" type="submit" id="update-btn">
+                            <span class="glyphicon glyphicon-refresh"></span> UPDATE
+                        </button>
+
+                    </div>
+                </div>
+                <hr>
+        </div>
+        </form>
+    </div>
     </div>
 
+
+    <script>
+
+
+        $(".button").on("click", function () {
+            var $button = $(this);
+            var oldVal = $button.parent().find("input").val();
+            var newVal;
+
+            if ($button.attr("id") == "plus-btn") {
+                newVal = parseInt(oldVal) + 1;
+            }
+            else {
+                if (oldVal > 0) {
+                    newVal = parseInt(oldVal) - 1;
+                }
+                else {
+                    newVal = 0;
+                }
+            }
+            $button.parent().find("input").val(newVal);
+
+        });
+
+        function update(f) {
+            document.getElementById('qtt').value = f.innerHTML;
+
+
+        }
+
+
+        $('#update-btn').click(function (e) {
+            e.preventDefault();
+            var get_val = $('#qtt').val();
+            $('#qtt').val(get_val);
+
+            var get_sprice = $('#single-price').val();
+
+            $('#total-price').val(get_val * get_sprice)
+        });
+
+
+    </script>
 {% endblock %}

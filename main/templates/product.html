@@ -9,13 +9,23 @@
             {% for i in products %}
                 <div class="col-xs-18 col-sm-4 col-md-3">
                     <div class="thumbnail">
-                        <img src="{% static "images/products/mens1.jpg" %}" alt="mens1"/>
+                        <img id='pro_img' src="{% get_static_prefix %}images/products/{{ i.product_name }}.jpg"
+                             alt="{{ i.product_name }}"/>
                         <div class="caption">
-                            <h5>{{ i.product_name }}</h5>
-                            <p>Price: £{{ i.price }}</p>
-
-                            <a href="#" class="btn btn-info btn-xs" role="button">Add to basket</a>
-                            <a href="#" class="btn btn-default btn-xs" role="button">Button</a>
+                            <h5 class="text-center">{{ i.product_name }}</h5>
+                            {% if i.quantity == 0 %}
+                                <p class="text-center text-uppercase">out of stock</p>
+                                <button type="submit" class="btn btn-info btn-xs center-block disabled">Add to basket
+                                </button>
+                            {% else %}
+                                <p class="text-center">Price: £{{ i.price }}</p>
+                                <form method="post" action="{% url 'add_basket' %} }}">
+                                    {% csrf_token %}
+                                    <input type=hidden value="{{ i.id }}" name="product_id">
+                                    <button type="submit" class="btn btn-info btn-xs center-block">Add to basket
+                                    </button>
+                                </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -23,4 +33,7 @@
         </div>
 
     </div>
+
+
 {% endblock %}
+
