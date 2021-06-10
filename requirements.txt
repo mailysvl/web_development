@@ -1,4 +1,4 @@
-Django==1.10.5
+Django==2.2.24
 django-base64field==1.0
 django-filter==1.0.1
 djangorestframework==3.5.4
